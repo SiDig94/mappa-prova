@@ -69,9 +69,7 @@
             map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
 
             // Ruota il marker in base all'orientamento dell'utente
-            if (currentHeading !== null) {
-                userMarker.getElement().style.transform = `rotate(${currentHeading}deg)`; // Ruota la freccia
-            }
+            userMarker.getElement().style.transform = `rotate(${currentHeading}deg)`; // Ruota la freccia
         }
 
         // Gestione errori
