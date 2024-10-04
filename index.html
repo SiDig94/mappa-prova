@@ -9,22 +9,15 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <style>
+        html, body {
+            margin: 0;          /* Rimuove il margine predefinito del browser */
+            padding: 0;         /* Rimuove il padding predefinito del browser */
+            height: 100%;       /* Assicura che l'altezza occupi il 100% dello schermo */
+        }
+
         #map {
-            height: 100vh;
-            width: 100%;
-        }
-        .popup-button {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .popup-button:hover {
-            background-color: #0056b3;
+            height: 100vh;      /* Occupare l'altezza completa della finestra */
+            width: 100vw;       /* Occupare la larghezza completa della finestra */
         }
     </style>
 </head>
@@ -34,12 +27,12 @@
     <!-- Link al JavaScript di Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Inizializza la mappa con zoom iniziale 18, minimo 17 e massimo 19
+        // Inizializza la mappa
         var map = L.map('map', {
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,                   // Zoom iniziale
             minZoom: 17,                // Zoom minimo
-            maxZoom: 19                 // Zoom massimo
+            maxZoom: 18                 // Zoom massimo
         });
 
         // Aggiunge il layer di OpenStreetMap
@@ -47,31 +40,24 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Aggiungi un'icona alla mappa
+        // Aggiunge un marker
         var marker = L.marker([40.49363526325899, 16.157518776766818]).addTo(map);
+        
+        // Aggiunge un popup al marker
+        var popup = L.popup()
+            .setContent('<div><strong>Benvenuto ad Accettura!</strong><br><button onclick="this.parentElement.parentElement.style.display=\'none\'">Chiudi</button></div>');
 
-        // Contenuto del popup
-        var popupContent = '<div>' +
-            '<h4>Punto di Interesse</h4>' +
-            '<p>Evento "Il borgo"</p>' +
-            '<button class="popup-button" onclick="closePopup()">Chiudi</button>' +
-            '</div>';
+        // Collega il popup al marker
+        marker.bindPopup(popup);
 
-        // Aggiungi il popup all'icona
-        marker.bindPopup(popupContent);
-
-        // Apri il popup al clic sull'icona
+        // Mostra il popup al click sul marker
         marker.on('click', function() {
             this.openPopup();
         });
-
-        // Funzione per chiudere il popup
-        function closePopup() {
-            marker.closePopup();
-        }
     </script>
 </body>
 </html>
+
 
 
 
