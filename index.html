@@ -22,20 +22,8 @@
             width: 100%;
         }
 
-        /* Stile per il popup */
-        .custom-popup button {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .custom-popup button:hover {
-            background-color: #0056b3;
+        .leaflet-marker-icon {
+            transition: transform 0.2s ease;
         }
     </style>
 </head>
@@ -53,8 +41,6 @@
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,
             zoomControl: true,
-            rotate: true, // Abilita la rotazione
-            touchRotate: true, // Abilita la rotazione tramite gesti su smartphone
             minZoom: 18
         });
 
@@ -63,52 +49,22 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Aggiungi un'icona con popup alla mappa
-        var marker = L.marker([40.49363526325899, 16.157518776766818]).addTo(map);
-
-        // Contenuto del popup
-        var popupContent = '<div class="custom-popup">' +
-            '<h4>Punto di Interesse</h4>' +
-            '<p>Informazioni sul punto di interesse qui.</p>' +
-            '<button onclick="closePopup()">Chiudi</button>' +
-            '</div>';
-
-        // Aggiungi il popup all'icona
-        marker.bindPopup(popupContent);
-
-        // Funzione per chiudere il popup
-        function closePopup() {
-            marker.closePopup();
-        }
-
-        // Crea un'icona personalizzata per la posizione dell'utente
-        var userIcon = L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/SiDig94/mappa-prova/refs/heads/main/Freccia%20Posizione.svg', // Percorso corretto dell'icona freccia
-            iconSize: [50, 50], // Dimensioni dell'icona
-            iconAnchor: [25, 25] // Posizione del punto centrale
+        // Icona personalizzata a forma di freccia
+        var arrowIcon = L.icon({
+            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Red_Arrow_Down.svg', // URL immagine freccia
+            iconSize: [40, 40], // Dimensioni dell'icona
+            iconAnchor: [20, 20], // Punto di ancoraggio (al centro)
         });
 
         // Crea un marker per la posizione dell'utente
-        var userMarker = L.marker([0, 0], { icon: userIcon }).addTo(map);
+        var userMarker = L.marker([0, 0], { icon: arrowIcon }).addTo(map);
 
         // Funzione per aggiornare la posizione dell'utente in tempo reale
         function onLocationFound(e) {
             var latlng = e.latlng;
-            userMarker.setLatLng(latlng); // Sposta il marker sulla posizione dell'utente
+            userMarker.setLatLng(latlng); // Sposta il marker
             map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
         }
-
-        // Funzione per aggiornare l'orientamento del marker con l'evento deviceorientation
-        function updateOrientation(event) {
-            var compassHeading = event.alpha; // Ottieni la direzione dell'utente
-            if (compassHeading !== null) {
-                // Applica la rotazione al marker dell'utente
-                userMarker.getElement().style.transform = `rotate(${compassHeading}deg)`;
-            }
-        }
-
-        // Ascolta l'evento di orientamento del dispositivo
-        window.addEventListener('deviceorientation', updateOrientation, true);
 
         // Gestione errori
         function onLocationError(e) {
@@ -126,9 +82,22 @@
         // Gestisce il ritrovamento della posizione e gli errori
         map.on('locationfound', onLocationFound);
         map.on('locationerror', onLocationError);
+
+        // Funzione per aggiornare l'orientamento del marker (freccia)
+        window.addEventListener('deviceorientation', function(event) {
+            var compassHeading = event.alpha; // Ottenere l'orientamento del dispositivo
+            if (compassHeading !== null) {
+                // Applica la rotazione al marker dell'utente
+                var iconElement = userMarker.getElement();
+                if (iconElement) {
+                    iconElement.style.transform = `rotate(${compassHeading}deg)`;
+                }
+            }
+        });
     </script>
 </body>
 </html>
+
 
 
 
