@@ -83,7 +83,7 @@
 
         // Crea un'icona personalizzata per la posizione dell'utente
         var userIcon = L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/SiDig94/mappa-prova/refs/heads/main/Freccia%20Posizione.svg', // Sostituisci con il percorso corretto del file SVG
+            iconUrl: 'https://raw.githubusercontent.com/tuo-username/tuo-repo/main/percorso/freccia.svg', // Sostituisci con il percorso corretto del file SVG
             iconSize: [50, 50], // Dimensioni dell'icona
             iconAnchor: [25, 25] // Posizione del punto centrale
         });
@@ -91,15 +91,11 @@
         // Crea un marker per la posizione dell'utente
         var userMarker = L.marker([0, 0], { icon: userIcon }).addTo(map);
 
-        // Funzione per aggiornare la posizione e l'orientamento dell'utente in tempo reale
+        // Funzione per aggiornare la posizione dell'utente in tempo reale
         function onLocationFound(e) {
             var latlng = e.latlng;
             userMarker.setLatLng(latlng); // Sposta il marker
             map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
-
-            if (e.heading) {
-                userMarker.setRotationAngle(e.heading); // Ruota la freccia in base all'orientamento
-            }
         }
 
         // Gestione errori
@@ -118,6 +114,15 @@
         // Gestisce il ritrovamento della posizione e gli errori
         map.on('locationfound', onLocationFound);
         map.on('locationerror', onLocationError);
+
+        // Funzione per aggiornare l'orientamento della freccia
+        window.addEventListener('deviceorientation', function(event) {
+            var alpha = event.alpha; // L'angolo di rotazione rispetto al nord
+
+            if (alpha !== null) {
+                userMarker.setRotationAngle(alpha); // Ruota la freccia
+            }
+        }, true);
     </script>
 </body>
 </html>
