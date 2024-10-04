@@ -65,6 +65,10 @@
         // Funzione per aggiornare la posizione dell'utente in tempo reale
         function onLocationFound(e) {
             var latlng = e.latlng;
+
+            // Log delle coordinate
+            console.log("Coordinate trovate:", latlng);
+
             userMarker.setLatLng(latlng); // Sposta il marker
             map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
 
@@ -92,10 +96,12 @@
         // Funzione per aggiornare l'orientamento del marker (freccia)
         window.addEventListener('deviceorientation', function(event) {
             currentHeading = event.alpha; // Ottenere l'orientamento del dispositivo
+            userMarker.getElement().style.transform = `rotate(${currentHeading}deg)`; // Ruota la freccia
         });
     </script>
 </body>
 </html>
+
 
 
 
