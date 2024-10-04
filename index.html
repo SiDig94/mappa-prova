@@ -70,10 +70,14 @@
             console.log("Coordinate trovate:", latlng);
 
             userMarker.setLatLng(latlng); // Sposta il marker
-            map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
 
             // Ruota il marker in base all'orientamento dell'utente
             userMarker.getElement().style.transform = `rotate(${currentHeading}deg)`; // Ruota la freccia
+
+            // Centra la mappa sulla nuova posizione, se non si è in modalità "visualizzazione"
+            if (map.getZoom() !== 18) {
+                map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
+            }
         }
 
         // Gestione errori
@@ -84,7 +88,7 @@
         // Richiedi la posizione dell'utente con tracciamento continuo
         map.locate({
             watch: true, // Abilita l'aggiornamento continuo della posizione
-            setView: true, // Centra la mappa sulla posizione dell'utente
+            setView: false, // Non centrare la mappa sulla posizione dell'utente
             maxZoom: 18,
             enableHighAccuracy: true // Aumenta la precisione
         });
@@ -101,6 +105,7 @@
     </script>
 </body>
 </html>
+
 
 
 
