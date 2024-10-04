@@ -57,7 +57,7 @@
 </head>
 <body>
     <div id="map"></div>
-    <button class="locate-button" onclick="locateUser()">Vai alla mia posizione</button>
+    <button class="locate-button" onclick="locateUser()">Vai alla tua posizione</button>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -108,11 +108,19 @@
         // Crea un marker per la posizione dell'utente
         var userMarker = L.marker([0, 0], { icon: userIcon }).addTo(map);
 
+        // Variabile per evitare che la mappa continui a seguire la posizione dopo il primo click
+        var userLocated = false;
+
         // Funzione per aggiornare la posizione dell'utente in tempo reale
         function onLocationFound(e) {
             var latlng = e.latlng;
             userMarker.setLatLng(latlng); // Sposta il marker
-            // Non centra la mappa automaticamente
+
+            // Centra la mappa sulla posizione solo la prima volta o quando richiesto
+            if (!userLocated) {
+                map.setView(latlng, 18); // Centra la mappa e imposta lo zoom
+                userLocated = true; // Impedisce il ricalcolo automatico in futuro
+            }
         }
 
         // Gestione errori
@@ -132,6 +140,7 @@
 
         // Funzione per spostare la mappa sulla posizione dell'utente al click del pulsante
         function locateUser() {
+            userLocated = false; // Permette di recentrare la mappa
             map.locate({ setView: true, maxZoom: 18 });
         }
     </script>
