@@ -13,6 +13,19 @@
             height: 100vh;
             width: 100%;
         }
+        .popup-button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .popup-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -21,21 +34,45 @@
     <!-- Link al JavaScript di Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Inizializza la mappa con zoom iniziale 10, minimo 1 e massimo 12
+        // Inizializza la mappa con zoom iniziale 18, minimo 17 e massimo 19
         var map = L.map('map', {
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,                   // Zoom iniziale
-            minZoom: 17,                 // Zoom minimo (molto lontano)
-            maxZoom: 19                 // Zoom massimo (limite per avvicinarsi)
+            minZoom: 17,                // Zoom minimo
+            maxZoom: 19                 // Zoom massimo
         });
 
         // Aggiunge il layer di OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+
+        // Aggiungi un'icona alla mappa
+        var marker = L.marker([40.49363526325899, 16.157518776766818]).addTo(map);
+
+        // Contenuto del popup
+        var popupContent = '<div>' +
+            '<h4>Punto di Interesse</h4>' +
+            '<p>Informazioni sul punto di interesse qui.</p>' +
+            '<button class="popup-button" onclick="closePopup()">Chiudi</button>' +
+            '</div>';
+
+        // Aggiungi il popup all'icona
+        marker.bindPopup(popupContent);
+
+        // Apri il popup al clic sull'icona
+        marker.on('click', function() {
+            this.openPopup();
+        });
+
+        // Funzione per chiudere il popup
+        function closePopup() {
+            marker.closePopup();
+        }
     </script>
 </body>
 </html>
+
 
 
 
