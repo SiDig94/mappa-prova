@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mappa di Accettura con Posizione Utente</title>
+    <title>Mappa di Accettura</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -22,20 +22,8 @@
             width: 100%;
         }
 
-        .popup-button {
-            display: block;
-            margin: 10px auto; /* Centra il pulsante */
-            padding: 10px 20px;
-            background-color: #007BFF; /* Colore di sfondo azzurro */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center; /* Allinea il testo al centro */
-        }
-
-        .popup-button:hover {
-            background-color: #0056b3; /* Colore al passaggio del mouse */
+        .leaflet-marker-icon {
+            transition: transform 0.2s ease;
         }
     </style>
 </head>
@@ -52,10 +40,10 @@
         var map = L.map('map', {
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,
-            minZoom: 18, // Imposta il livello di zoom minimo a 18
             zoomControl: true,
             rotate: true, // Abilita la rotazione
-            touchRotate: true // Abilita la rotazione tramite gesti su smartphone
+            touchRotate: true, // Abilita la rotazione tramite gesti su smartphone
+            minZoom: 18
         });
 
         // Aggiungi il layer di OpenStreetMap
@@ -63,51 +51,51 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Aggiungi un'icona alla mappa
-        var marker = L.marker([40.49363526325899, 16.157518776766818]).addTo(map);
-
-        // Contenuto del popup
-        var popupContent = '<div>' +
-            '<h4>Punto di Interesse</h4>' +
-            '<p>Informazioni sul punto di interesse qui.</p>' +
-            '<button class="popup-button" onclick="closePopup()">Chiudi</button>' +
-            '</div>';
-
-        // Aggiungi il popup all'icona
-        marker.bindPopup(popupContent);
-
-        // Apri il popup al clic sull'icona
-        marker.on('click', function() {
-            this.openPopup();
+        // Icona personalizzata a forma di freccia
+        var arrowIcon = L.icon({
+            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Red_Arrow_Down.svg', // URL immagine freccia
+            iconSize: [40, 40], // Dimensioni dell'icona
+            iconAnchor: [20, 20], // Punto di ancoraggio (al centro)
         });
 
-        // Funzione per chiudere il popup
-        function closePopup() {
-            marker.closePopup();
+        // Crea un marker per la posizione dell'utente
+        var userMarker = L.marker([0, 0], { icon: arrowIcon }).addTo(map);
+
+        // Funzione per aggiornare la posizione dell'utente in tempo reale
+        function onLocationFound(e) {
+            var latlng = e.latlng;
+            userMarker.setLatLng(latlng); // Sposta il marker
+            map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
         }
 
-        // Funzione per ottenere la posizione dell'utente
-        function getUserLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var userLat = position.coords.latitude;
-                    var userLng = position.coords.longitude;
-                    var userMarker = L.marker([userLat, userLng]).addTo(map)
-                        .bindPopup("La tua posizione").openPopup();
-                    map.setView([userLat, userLng], 18); // Centra la mappa sulla posizione dell'utente
-                }, function() {
-                    alert("Impossibile ottenere la posizione.");
-                });
-            } else {
-                alert("Geolocalizzazione non supportata dal tuo browser.");
+        // Gestione errori
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        // Richiedi la posizione dell'utente con tracciamento continuo
+        map.locate({
+            watch: true, // Abilita l'aggiornamento continuo della posizione
+            setView: true, // Centra la mappa sulla posizione dell'utente
+            maxZoom: 18,
+            enableHighAccuracy: true // Aumenta la precisione
+        });
+
+        // Gestisce il ritrovamento della posizione e gli errori
+        map.on('locationfound', onLocationFound);
+        map.on('locationerror', onLocationError);
+
+        // Funzione per aggiornare l'orientamento del marker (freccia)
+        window.addEventListener('deviceorientation', function(event) {
+            var compassHeading = event.alpha; // Ottenere l'orientamento del dispositivo
+            if (compassHeading !== null) {
+                userMarker.getElement().style.transform = `rotate(${compassHeading}deg)`; // Ruota la freccia
             }
-        }
-
-        // Richiama la funzione per ottenere la posizione dell'utente
-        getUserLocation();
+        });
     </script>
 </body>
 </html>
+
 
 
 
