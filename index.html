@@ -40,13 +40,13 @@
             position: absolute;
             bottom: 20px;
             right: 20px;
-            padding: 10px 20px;
-            background-color: #007BFF; /* Colore del pulsante */
+            padding: 10px 15px;
+            background-color: #007BFF; /* Colore di sfondo azzurro */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            z-index: 1000;
+            z-index: 1000; /* Assicura che il pulsante sia sopra la mappa */
         }
 
         .locate-button:hover {
@@ -56,7 +56,7 @@
 </head>
 <body>
     <div id="map"></div>
-    <button class="locate-button" onclick="locateUser()">Vai alla tua posizione</button>
+    <button class="locate-button" onclick="goToMyLocation()">Vai alla tua posizione</button>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -87,6 +87,11 @@
         // Aggiungi il popup all'icona
         marker.bindPopup(popupContent);
 
+        // Apri il popup al clic sull'icona
+        marker.on('click', function() {
+            this.openPopup();
+        });
+
         // Funzione per chiudere il popup
         function closePopup() {
             marker.closePopup();
@@ -102,10 +107,10 @@
         // Crea un marker per la posizione dell'utente
         var userMarker = L.marker([0, 0], { icon: userIcon }).addTo(map);
 
-        // Funzione per aggiornare la posizione dell'utente senza spostare la mappa
+        // Funzione per aggiornare la posizione dell'utente in tempo reale
         function onLocationFound(e) {
             var latlng = e.latlng;
-            userMarker.setLatLng(latlng);
+            userMarker.setLatLng(latlng); // Sposta il marker
         }
 
         // Gestione errori
@@ -123,16 +128,19 @@
         map.on('locationfound', onLocationFound);
         map.on('locationerror', onLocationError);
 
-        // Funzione per spostare la mappa sulla posizione dell'utente solo una volta
-        function locateUser() {
-            map.once('locationfound', function(e) {
-                map.setView(e.latlng, 18); // Porta la mappa sulla posizione
-            });
-            map.locate({ setView: true, maxZoom: 18 });
+        // Funzione per andare alla posizione dell'utente
+        function goToMyLocation() {
+            var latlng = userMarker.getLatLng();
+            if (latlng.lat !== 0 && latlng.lng !== 0) { // Verifica se la posizione dell'utente è valida
+                map.setView(latlng, map.getZoom()); // Centra la mappa sulla posizione dell'utente
+            } else {
+                alert("Posizione non trovata.");
+            }
         }
     </script>
 </body>
 </html>
+
 
 
 
