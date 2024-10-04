@@ -21,12 +21,12 @@
     <!-- Link al JavaScript di Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Inizializza la mappa con zoom iniziale 10, minimo 1 e massimo 12
+        // Inizializza la mappa con le coordinate fornite e lo zoom definito
         var map = L.map('map', {
-            center: [40.4675, 16.1199], // Coordinate di Accettura
-            zoom: 18,                   // Zoom iniziale
-            minZoom: 17,                 // Zoom minimo (molto lontano)
-            maxZoom: 19                 // Zoom massimo (limite per avvicinarsi)
+            center: [4937812.5, 1798799.9], // Coordinate esatte
+            zoom: 18,                        // Zoom iniziale
+            minZoom: 17,                     // Zoom minimo
+            maxZoom: 19                      // Zoom massimo
         });
 
         // Aggiunge il layer di OpenStreetMap
