@@ -21,8 +21,13 @@
     <!-- Link al JavaScript di Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Inizializza la mappa e centra su Accettura (latitudine, longitudine)
-        var map = L.map('map').setView([40.4675, 16.1199], 14);
+        // Inizializza la mappa, imposta il centro su Accettura e uno zoom più elevato
+        var map = L.map('map', {
+            center: [40.4675, 16.1199], // Coordinate di Accettura
+            zoom: 17,                   // Zoom iniziale
+            minZoom: 14,                // Zoom minimo (per limitare la riduzione)
+            maxZoom: 19                 // Zoom massimo (per consentire uno zoom elevato)
+        });
 
         // Aggiunge il layer di OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
