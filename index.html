@@ -53,17 +53,25 @@
         var arrowIcon = L.icon({
             iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Red_Arrow_Down.svg', // URL immagine freccia
             iconSize: [40, 40], // Dimensioni dell'icona
-            iconAnchor: [20, 20], // Punto di ancoraggio (al centro)
+            iconAnchor: [20, 40], // Punto di ancoraggio (al centro e verso il basso)
         });
 
         // Crea un marker per la posizione dell'utente
         var userMarker = L.marker([0, 0], { icon: arrowIcon }).addTo(map);
+
+        // Variabile per memorizzare l'orientamento
+        var currentHeading = 0;
 
         // Funzione per aggiornare la posizione dell'utente in tempo reale
         function onLocationFound(e) {
             var latlng = e.latlng;
             userMarker.setLatLng(latlng); // Sposta il marker
             map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
+
+            // Ruota il marker in base all'orientamento dell'utente
+            if (currentHeading !== null) {
+                userMarker.getElement().style.transform = `rotate(${currentHeading}deg)`; // Ruota la freccia
+            }
         }
 
         // Gestione errori
@@ -85,18 +93,12 @@
 
         // Funzione per aggiornare l'orientamento del marker (freccia)
         window.addEventListener('deviceorientation', function(event) {
-            var compassHeading = event.alpha; // Ottenere l'orientamento del dispositivo
-            if (compassHeading !== null) {
-                // Applica la rotazione al marker dell'utente
-                var iconElement = userMarker.getElement();
-                if (iconElement) {
-                    iconElement.style.transform = `rotate(${compassHeading}deg)`;
-                }
-            }
+            currentHeading = event.alpha; // Ottenere l'orientamento del dispositivo
         });
     </script>
 </body>
 </html>
+
 
 
 
