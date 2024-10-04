@@ -7,21 +7,22 @@
 
     <!-- Link al CSS di Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Link al CSS e JavaScript di Leaflet Rotate -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-rotate@1.1.0/leaflet.rotate.css" />
-    <script src="https://unpkg.com/leaflet-rotate@1.1.0/leaflet.rotate.js"></script>
+    
+    <!-- Leaflet-Rotate -->
+    <script src="https://unpkg.com/leaflet-rotate@0.2.8/dist/leaflet-rotate-src.js"></script>
 
     <style>
         html, body {
-            margin: 0;          /* Rimuove il margine predefinito del browser */
-            padding: 0;         /* Rimuove il padding predefinito del browser */
-            height: 100%;       /* Assicura che l'altezza occupi il 100% dello schermo */
+            margin: 0;
+            padding: 0;
+            height: 100%;
         }
 
         #map {
-            height: 100vh;      /* Occupare l'altezza completa della finestra */
-            width: 100%;        /* Occupare la larghezza completa della finestra */
+            height: 100vh;
+            width: 100%;
         }
+
         .popup-button {
             display: block;
             margin: 10px auto;
@@ -46,14 +47,15 @@
         // Inizializza la mappa con zoom iniziale 18, minimo 17 e massimo 19
         var map = L.map('map', {
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
-            zoom: 18,                   // Zoom iniziale
-            minZoom: 17,                // Zoom minimo
-            maxZoom: 19,                // Zoom massimo
-            touchZoom: true,            // Abilita lo zoom tramite tocco
-            scrollWheelZoom: false,     // Disabilita lo zoom con la rotella del mouse
-            doubleClickZoom: false,     // Disabilita il doppio clic per zoomare
-            zoomControl: true,          // Mostra i controlli di zoom
-            zoomAnimation: true         // Abilita le animazioni di zoom
+            zoom: 18,
+            minZoom: 17,
+            maxZoom: 18,
+            touchZoom: true,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+            zoomControl: true,
+            rotate: true, // Abilita la rotazione
+            touchRotate: true // Abilita la rotazione tramite gesti su smartphone
         });
 
         // Aggiunge il layer di OpenStreetMap
@@ -67,7 +69,7 @@
         // Contenuto del popup
         var popupContent = '<div>' +
             '<h4>Punto di Interesse</h4>' +
-            '<p>Informazioni sul punto di interesse qui.</p>' +
+            '<p>Il Borgo</p>' +
             '<button class="popup-button" onclick="closePopup()">Chiudi</button>' +
             '</div>';
 
@@ -83,12 +85,10 @@
         function closePopup() {
             marker.closePopup();
         }
-
-        // Abilita la rotazione della mappa
-        map.rotate(0);
     </script>
 </body>
 </html>
+
 
 
 
