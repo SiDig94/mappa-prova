@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mappa di Accettura</title>
+    <title>Mappa di Accettura con Posizione Utente</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -69,7 +69,7 @@
         // Contenuto del popup
         var popupContent = '<div>' +
             '<h4>Punto di Interesse</h4>' +
-            '<p>Evento "il Borgo"</p>' +
+            '<p>Informazioni sul punto di interesse qui.</p>' +
             '<button class="popup-button" onclick="closePopup()">Chiudi</button>' +
             '</div>';
 
@@ -85,9 +85,30 @@
         function closePopup() {
             marker.closePopup();
         }
+
+        // Funzione per ottenere la posizione dell'utente
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLat = position.coords.latitude;
+                    var userLng = position.coords.longitude;
+                    var userMarker = L.marker([userLat, userLng]).addTo(map)
+                        .bindPopup("La tua posizione").openPopup();
+                    map.setView([userLat, userLng], 18); // Centra la mappa sulla posizione dell'utente
+                }, function() {
+                    alert("Impossibile ottenere la posizione.");
+                });
+            } else {
+                alert("Geolocalizzazione non supportata dal tuo browser.");
+            }
+        }
+
+        // Richiama la funzione per ottenere la posizione dell'utente
+        getUserLocation();
     </script>
 </body>
 </html>
+
 
 
 
