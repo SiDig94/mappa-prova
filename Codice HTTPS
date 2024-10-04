@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mappa Interattiva</title>
+    
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+    <!-- Include Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
+    <style>
+        /* Imposta altezza della mappa */
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+        /* Stile per i popup personalizzati */
+        .popup-content {
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Mappa Interattiva di Accettura</h1>
+    
+    <!-- Div per la mappa -->
+    <div id="map"></div>
+
+    <script>
+        // Inizializza la mappa centrata su Accettura
+        var map = L.map('map').setView([40.489, 16.198], 15); // Latitudine e longitudine di Accettura
+
+        // Aggiungi una mappa di base da OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Aggiungi un marker (punto di interesse) con un popup
+        var marker = L.marker([40.489, 16.198]).addTo(map);
+        marker.bindPopup("<div class='popup-content'><strong>Punto di Interesse</strong><br>Questo è un esempio di popup informativo.</div>").openPopup();
+
+        // Aggiungi un percorso (linea) usando le coordinate
+        var percorso = L.polyline([
+            [40.488, 16.197],
+            [40.489, 16.198],
+            [40.490, 16.199]
+        ], { color: 'red' }).addTo(map);
+
+    </script>
+</body>
+</html>
