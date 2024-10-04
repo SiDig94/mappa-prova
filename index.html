@@ -1,47 +1,64 @@
 <!DOCTYPE html>
-<html lang="it">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mappa di Accettura</title>
-    
-    <!-- Leaflet CSS -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link al CSS di Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Leaflet-Rotate CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-rotate@0.2.8/dist/leaflet-rotate.css" />
+
+    <!-- Leaflet-Rotate -->
+    <script src="https://unpkg.com/leaflet-rotate@0.2.8/dist/leaflet-rotate-src.js"></script>
 
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
+        html,
+        body {
+            margin: 0; /* Rimuove il margine predefinito del browser */
+            padding: 0; /* Rimuove il padding predefinito del browser */
+            height: 100%; /* Assicura che l'altezza occupi il 100% dello schermo */
         }
 
         #map {
-            height: 100vh;
-            width: 100%;
+            height: 100vh; /* Occupare l'altezza completa della finestra */
+            width: 100%; /* Occupare la larghezza completa della finestra */
+        }
+
+        .popup-button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
+
 <body>
     <div id="map"></div>
 
-    <!-- Leaflet JS -->
+    <!-- Link al JavaScript di Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Leaflet-Rotate JS -->
-    <script src="https://unpkg.com/leaflet-rotate@0.2.8/dist/leaflet-rotate-src.js"></script>
-
     <script>
-        // Inizializza la mappa
+        // Inizializza la mappa con zoom iniziale 18, minimo 17 e massimo 19
         var map = L.map('map', {
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
-            zoom: 18,
-            zoomControl: true,
+            zoom: 18, // Zoom iniziale
+            minZoom: 17, // Zoom minimo
+            maxZoom: 19, // Zoom massimo
             rotate: true, // Abilita la rotazione
-            touchRotate: true // Abilita la rotazione tramite gesti su smartphone
+            touchRotate: true // Abilita la rotazione tramite tocco
         });
 
-        // Aggiungi il layer di OpenStreetMap
+        // Aggiunge il layer di OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
@@ -52,15 +69,15 @@
         // Contenuto del popup
         var popupContent = '<div>' +
             '<h4>Punto di Interesse</h4>' +
-            '<p>Informazioni sul punto di interesse qui!</p>' +
-            '<button onclick="closePopup()">Chiudi</button>' +
+            '<p>Informazioni sul punto di interesse qui.</p>' +
+            '<button class="popup-button" onclick="closePopup()">Chiudi</button>' +
             '</div>';
 
         // Aggiungi il popup all'icona
         marker.bindPopup(popupContent);
 
         // Apri il popup al clic sull'icona
-        marker.on('click', function() {
+        marker.on('click', function () {
             this.openPopup();
         });
 
@@ -70,6 +87,7 @@
         }
     </script>
 </body>
+
 </html>
 
 
