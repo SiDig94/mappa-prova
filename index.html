@@ -7,7 +7,10 @@
 
     <!-- Link al CSS di Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
+    <!-- Link al CSS e JavaScript di Leaflet Rotate -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-rotate@1.1.0/leaflet.rotate.css" />
+    <script src="https://unpkg.com/leaflet-rotate@1.1.0/leaflet.rotate.js"></script>
+
     <style>
         html, body {
             margin: 0;          /* Rimuove il margine predefinito del browser */
@@ -45,13 +48,12 @@
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,                   // Zoom iniziale
             minZoom: 17,                // Zoom minimo
-            maxZoom: 18,                // Zoom massimo
+            maxZoom: 19,                // Zoom massimo
             touchZoom: true,            // Abilita lo zoom tramite tocco
             scrollWheelZoom: false,     // Disabilita lo zoom con la rotella del mouse
             doubleClickZoom: false,     // Disabilita il doppio clic per zoomare
             zoomControl: true,          // Mostra i controlli di zoom
-            zoomAnimation: true,        // Abilita le animazioni di zoom
-            rotate: true                // Abilita la rotazione
+            zoomAnimation: true         // Abilita le animazioni di zoom
         });
 
         // Aggiunge il layer di OpenStreetMap
@@ -65,7 +67,7 @@
         // Contenuto del popup
         var popupContent = '<div>' +
             '<h4>Punto di Interesse</h4>' +
-            '<p>Evento "il Borgo"</p>' +
+            '<p>Informazioni sul punto di interesse qui.</p>' +
             '<button class="popup-button" onclick="closePopup()">Chiudi</button>' +
             '</div>';
 
@@ -81,9 +83,13 @@
         function closePopup() {
             marker.closePopup();
         }
+
+        // Abilita la rotazione della mappa
+        map.rotate(0);
     </script>
 </body>
 </html>
+
 
 
 
