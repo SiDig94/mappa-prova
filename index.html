@@ -7,7 +7,7 @@
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
+    
     <style>
         body, html {
             margin: 0;
@@ -48,7 +48,8 @@
         var map = L.map('map', {
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,
-            minZoom: 18 // Imposta il livello di zoom minimo a 18
+            minZoom: 18, // Imposta il livello di zoom minimo a 18
+            zoomControl: true,
         });
 
         // Aggiungi il layer di OpenStreetMap
@@ -56,14 +57,8 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Aggiungi un'icona alla mappa
-        var marker = L.marker([40.49363526325899, 16.157518776766818], {
-            icon: L.icon({
-                iconUrl: 'https://raw.githubusercontent.com/SiDig94/mappa-prova/refs/heads/main/Omino%20Posizione.svg', // URL dell'icona dell'omino
-                iconSize: [40, 40], // Dimensioni dell'icona
-                iconAnchor: [20, 40] // Punto di ancoraggio (al centro)
-            })
-        }).addTo(map);
+        // Aggiungi un'icona alla mappa (Punto di Interesse)
+        var marker = L.marker([40.49363526325899, 16.157518776766818]).addTo(map);
 
         // Contenuto del popup
         var popupContent = '<div>' +
@@ -85,11 +80,21 @@
             marker.closePopup();
         }
 
+        // Icona personalizzata per la posizione dell'utente
+        var userIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/SiDig94/mappa-prova/refs/heads/main/Omino%20Posizione.svg', // URL della tua immagine SVG
+            iconSize: [40, 40], // Dimensioni dell'icona
+            iconAnchor: [20, 40], // Punto di ancoraggio (al centro e verso il basso)
+        });
+
+        // Crea un marker per la posizione dell'utente
+        var userMarker = L.marker([0, 0], { icon: userIcon }).addTo(map);
+
         // Funzione per aggiornare la posizione dell'utente in tempo reale
         function onLocationFound(e) {
             var latlng = e.latlng;
-            marker.setLatLng(latlng); // Sposta il marker
-            // Non centriamo più la mappa sulla posizione dell'utente
+            userMarker.setLatLng(latlng); // Sposta il marker
+            // Non centra più la mappa sulla posizione dell'utente
         }
 
         // Gestione errori
@@ -109,6 +114,7 @@
     </script>
 </body>
 </html>
+
 
 
 
