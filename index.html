@@ -95,9 +95,6 @@
             var latlng = e.latlng;
             userMarker.setLatLng(latlng); // Sposta il marker
             map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
-            
-            // Aggiungi un popup con informazioni sulla posizione
-            userMarker.bindPopup("Sei qui!").openPopup();
         }
 
         // Gestione errori
@@ -119,6 +116,7 @@
     </script>
 </body>
 </html>
+
 
 
 
