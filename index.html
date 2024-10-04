@@ -7,9 +7,7 @@
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Leaflet-Rotate CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-rotate@0.2.8/dist/leaflet-rotate.css" />
-
+    
     <style>
         body, html {
             margin: 0;
@@ -21,22 +19,6 @@
             height: 100vh;
             width: 100%;
         }
-
-        .popup-button {
-            display: block;
-            margin: 10px auto; /* Centra il pulsante */
-            padding: 10px 20px;
-            background-color: #007BFF; /* Colore di sfondo azzurro */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center; /* Allinea il testo al centro */
-        }
-
-        .popup-button:hover {
-            background-color: #0056b3; /* Colore al passaggio del mouse */
-        }
     </style>
 </head>
 <body>
@@ -44,18 +26,14 @@
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Leaflet-Rotate JS -->
-    <script src="https://unpkg.com/leaflet-rotate@0.2.8/dist/leaflet-rotate-src.js"></script>
 
     <script>
         // Inizializza la mappa
         var map = L.map('map', {
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,
-            minZoom: 18, // Imposta il livello di zoom minimo a 18
             zoomControl: true,
-            rotate: true, // Abilita la rotazione
-            touchRotate: true // Abilita la rotazione tramite gesti su smartphone
+            minZoom: 18
         });
 
         // Aggiungi il layer di OpenStreetMap
@@ -63,31 +41,43 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Aggiungi un'icona alla mappa
-        var marker = L.marker([40.49363526325899, 16.157518776766818]).addTo(map);
-
-        // Contenuto del popup
-        var popupContent = '<div>' +
-            '<h4>Punto di Interesse</h4>' +
-            '<p>Informazioni sul punto di interesse qui.</p>' +
-            '<button class="popup-button" onclick="closePopup()">Chiudi</button>' +
-            '</div>';
-
-        // Aggiungi il popup all'icona
-        marker.bindPopup(popupContent);
-
-        // Apri il popup al clic sull'icona
-        marker.on('click', function() {
-            this.openPopup();
+        // Icona personalizzata per la posizione dell'utente (omino)
+        var userIcon = L.icon({
+            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Red_person_icon.svg/1200px-Red_person_icon.svg.png', // URL dell'immagine dell'omino
+            iconSize: [40, 40], // Dimensioni dell'icona
+            iconAnchor: [20, 40], // Punto di ancoraggio (al centro e verso il basso)
         });
 
-        // Funzione per chiudere il popup
-        function closePopup() {
-            marker.closePopup();
+        // Crea un marker per la posizione dell'utente
+        var userMarker = L.marker([0, 0], { icon: userIcon }).addTo(map);
+
+        // Funzione per aggiornare la posizione dell'utente in tempo reale
+        function onLocationFound(e) {
+            var latlng = e.latlng;
+            userMarker.setLatLng(latlng); // Sposta il marker
+            map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
         }
+
+        // Gestione errori
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        // Richiedi la posizione dell'utente con tracciamento continuo
+        map.locate({
+            watch: true, // Abilita l'aggiornamento continuo della posizione
+            setView: true, // Centra la mappa sulla posizione dell'utente
+            maxZoom: 18,
+            enableHighAccuracy: true // Aumenta la precisione
+        });
+
+        // Gestisce il ritrovamento della posizione e gli errori
+        map.on('locationfound', onLocationFound);
+        map.on('locationerror', onLocationError);
     </script>
 </body>
 </html>
+
 
 
 
