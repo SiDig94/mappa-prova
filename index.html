@@ -41,9 +41,9 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Icona personalizzata per la posizione dell'utente (omino)
+        // Icona personalizzata per la posizione dell'utente
         var userIcon = L.icon({
-            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Red_person_icon.svg/1200px-Red_person_icon.svg.png', // URL dell'immagine dell'omino
+            iconUrl: 'https://raw.githubusercontent.com/SiDig94/mappa-prova/refs/heads/main/Omino%20Posizione.svg', // URL della tua immagine SVG
             iconSize: [40, 40], // Dimensioni dell'icona
             iconAnchor: [20, 40], // Punto di ancoraggio (al centro e verso il basso)
         });
@@ -56,6 +56,9 @@
             var latlng = e.latlng;
             userMarker.setLatLng(latlng); // Sposta il marker
             map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
+            
+            // Aggiungi un popup con informazioni sulla posizione
+            userMarker.bindPopup("Sei qui!").openPopup();
         }
 
         // Gestione errori
