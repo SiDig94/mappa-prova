@@ -102,18 +102,18 @@
         // Crea un marker per la posizione dell'utente
         var userMarker = L.marker([0, 0], { icon: userIcon }).addTo(map);
 
-        // Variabile per evitare che la mappa continui a centrare sulla posizione
-        var userLocated = false;
+        // Variabile per verificare se la posizione è stata centrata una volta
+        var userLocatedOnce = false;
 
-        // Funzione per aggiornare la posizione dell'utente senza spostare la mappa
+        // Funzione per aggiornare la posizione dell'utente senza spostare la mappa dopo il primo click
         function onLocationFound(e) {
             var latlng = e.latlng;
             userMarker.setLatLng(latlng);
-            
-            // Se è stato premuto il pulsante, centra la mappa una sola volta
-            if (!userLocated) {
-                map.setView(latlng, 18);
-                userLocated = true; // Imposta la variabile su true per non centrare più la mappa
+
+            // Se l'utente non è stato ancora localizzato una volta, sposta la visuale
+            if (!userLocatedOnce) {
+                map.setView(latlng, 18); // Centra la mappa sulla posizione dell'utente
+                userLocatedOnce = true; // Blocca ulteriori movimenti automatici della mappa
             }
         }
 
@@ -134,8 +134,11 @@
 
         // Funzione per spostare la mappa sulla posizione dell'utente solo una volta
         function locateUser() {
-            userLocated = false; // Permette di centrare di nuovo la mappa alla posizione
-            map.locate({ setView: true, maxZoom: 18 });
+            if (!userLocatedOnce) {
+                map.once('locationfound', function(e) {
+                    map.setView(e.latlng, 18); // Porta la mappa sulla posizione
+                });
+            }
         }
     </script>
 </body>
