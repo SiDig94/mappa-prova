@@ -91,20 +91,24 @@
         // Crea un marker per la posizione dell'utente
         var userMarker = L.marker([0, 0], { icon: userIcon }).addTo(map);
 
-        // Funzione per aggiornare la posizione e l'orientamento dell'utente in tempo reale
+        // Funzione per aggiornare la posizione dell'utente in tempo reale
         function onLocationFound(e) {
             var latlng = e.latlng;
-            userMarker.setLatLng(latlng); // Sposta il marker
+            userMarker.setLatLng(latlng); // Sposta il marker sulla posizione dell'utente
             map.setView(latlng, 18); // Centra la mappa sulla nuova posizione
         }
 
-        // Funzione per aggiornare l'orientamento del marker
-        window.addEventListener('deviceorientation', function(event) {
-            var compassHeading = event.alpha; // Ottenere l'orientamento del dispositivo
+        // Funzione per aggiornare l'orientamento del marker con l'evento deviceorientation
+        function updateOrientation(event) {
+            var compassHeading = event.alpha; // Ottieni la direzione dell'utente
             if (compassHeading !== null) {
-                userMarker.getElement().style.transform = `rotate(${compassHeading}deg)`; // Ruota la freccia
+                // Applica la rotazione al marker dell'utente
+                userMarker.getElement().style.transform = `rotate(${compassHeading}deg)`;
             }
-        });
+        }
+
+        // Ascolta l'evento di orientamento del dispositivo
+        window.addEventListener('deviceorientation', updateOrientation, true);
 
         // Gestione errori
         function onLocationError(e) {
