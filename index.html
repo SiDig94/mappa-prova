@@ -45,7 +45,13 @@
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,                   // Zoom iniziale
             minZoom: 17,                // Zoom minimo
-            maxZoom: 18                 // Zoom massimo
+            maxZoom: 18,                // Zoom massimo
+            touchZoom: true,            // Abilita lo zoom tramite tocco
+            scrollWheelZoom: false,     // Disabilita lo zoom con la rotella del mouse
+            doubleClickZoom: false,     // Disabilita il doppio clic per zoomare
+            zoomControl: true,          // Mostra i controlli di zoom
+            zoomAnimation: true,        // Abilita le animazioni di zoom
+            rotate: true                // Abilita la rotazione
         });
 
         // Aggiunge il layer di OpenStreetMap
@@ -59,7 +65,7 @@
         // Contenuto del popup
         var popupContent = '<div>' +
             '<h4>Punto di Interesse</h4>' +
-            '<p>Informazioni sul punto di interesse qui.</p>' +
+            '<p>Evento "il Borgo"</p>' +
             '<button class="popup-button" onclick="closePopup()">Chiudi</button>' +
             '</div>';
 
