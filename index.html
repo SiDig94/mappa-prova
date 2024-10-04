@@ -52,6 +52,7 @@
         var map = L.map('map', {
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,
+            minZoom: 18, // Imposta il livello di zoom minimo a 18
             zoomControl: true,
             rotate: true, // Abilita la rotazione
             touchRotate: true // Abilita la rotazione tramite gesti su smartphone
@@ -68,7 +69,7 @@
         // Contenuto del popup
         var popupContent = '<div>' +
             '<h4>Punto di Interesse</h4>' +
-            '<p>Informazioni sul punto di interesse qui.</p>' +
+            '<p>Evento "il Borgo"</p>' +
             '<button class="popup-button" onclick="closePopup()">Chiudi</button>' +
             '</div>';
 
@@ -87,6 +88,7 @@
     </script>
 </body>
 </html>
+
 
 
 
