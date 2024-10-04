@@ -35,10 +35,29 @@
         .popup-button:hover {
             background-color: #0056b3; /* Colore al passaggio del mouse */
         }
+
+        /* Stile per il pulsante in basso a destra */
+        .locate-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .locate-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div id="map"></div>
+    <button class="locate-button" onclick="locateUser()">Vai alla mia posizione</button>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -48,7 +67,6 @@
         var map = L.map('map', {
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,
-            minZoom: 18, // Imposta il livello di zoom minimo a 18
             zoomControl: true,
         });
 
@@ -94,7 +112,7 @@
         function onLocationFound(e) {
             var latlng = e.latlng;
             userMarker.setLatLng(latlng); // Sposta il marker
-            // Non centra più la mappa sulla posizione dell'utente
+            // Non centra la mappa automaticamente
         }
 
         // Gestione errori
@@ -111,9 +129,15 @@
         // Gestisce il ritrovamento della posizione e gli errori
         map.on('locationfound', onLocationFound);
         map.on('locationerror', onLocationError);
+
+        // Funzione per spostare la mappa sulla posizione dell'utente al click del pulsante
+        function locateUser() {
+            map.locate({ setView: true, maxZoom: 18 });
+        }
     </script>
 </body>
 </html>
+
 
 
 
