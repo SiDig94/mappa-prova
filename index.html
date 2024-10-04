@@ -22,18 +22,18 @@
 
         .popup-button {
             display: block;
-            margin: 10px auto;
+            margin: 10px auto; /* Centra il pulsante */
             padding: 10px 20px;
-            background-color: #007BFF;
+            background-color: #007BFF; /* Colore di sfondo azzurro */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            text-align: center;
+            text-align: center; /* Allinea il testo al centro */
         }
 
         .popup-button:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* Colore al passaggio del mouse */
         }
 
         .locate-button {
@@ -41,7 +41,7 @@
             bottom: 20px;
             right: 20px;
             padding: 10px 20px;
-            background-color: #007BFF;
+            background-color: #007BFF; /* Colore del pulsante */
             color: white;
             border: none;
             border-radius: 5px;
@@ -50,7 +50,7 @@
         }
 
         .locate-button:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* Colore al passaggio del mouse */
         }
     </style>
 </head>
@@ -94,27 +94,18 @@
 
         // Icona personalizzata per la posizione dell'utente
         var userIcon = L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/SiDig94/mappa-prova/refs/heads/main/Omino%20Posizione.svg', 
-            iconSize: [40, 40], 
-            iconAnchor: [20, 40], 
+            iconUrl: 'https://raw.githubusercontent.com/SiDig94/mappa-prova/refs/heads/main/Omino%20Posizione.svg', // URL della tua immagine SVG
+            iconSize: [40, 40], // Dimensioni dell'icona
+            iconAnchor: [20, 40], // Punto di ancoraggio (al centro e verso il basso)
         });
 
         // Crea un marker per la posizione dell'utente
         var userMarker = L.marker([0, 0], { icon: userIcon }).addTo(map);
 
-        // Variabile per verificare se la posizione è stata centrata una volta
-        var userLocatedOnce = false;
-
-        // Funzione per aggiornare la posizione dell'utente senza spostare la mappa dopo il primo click
+        // Funzione per aggiornare la posizione dell'utente senza spostare la mappa
         function onLocationFound(e) {
             var latlng = e.latlng;
             userMarker.setLatLng(latlng);
-
-            // Se l'utente non è stato ancora localizzato una volta, sposta la visuale
-            if (!userLocatedOnce) {
-                map.setView(latlng, 18); // Centra la mappa sulla posizione dell'utente
-                userLocatedOnce = true; // Blocca ulteriori movimenti automatici della mappa
-            }
         }
 
         // Gestione errori
@@ -124,8 +115,8 @@
 
         // Richiedi la posizione dell'utente con tracciamento continuo
         map.locate({
-            watch: true,
-            enableHighAccuracy: true
+            watch: true, // Abilita l'aggiornamento continuo della posizione
+            enableHighAccuracy: true // Aumenta la precisione
         });
 
         // Gestisce il ritrovamento della posizione e gli errori
@@ -134,11 +125,10 @@
 
         // Funzione per spostare la mappa sulla posizione dell'utente solo una volta
         function locateUser() {
-            if (!userLocatedOnce) {
-                map.once('locationfound', function(e) {
-                    map.setView(e.latlng, 18); // Porta la mappa sulla posizione
-                });
-            }
+            map.once('locationfound', function(e) {
+                map.setView(e.latlng, 18); // Porta la mappa sulla posizione
+            });
+            map.locate({ setView: true, maxZoom: 18 });
         }
     </script>
 </body>
