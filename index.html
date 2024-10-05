@@ -8,8 +8,8 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Leaflet Rotate CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-rotate@1.0.0/leaflet.rotate.css" />
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-rotate@1.1.1/leaflet.rotate.css" />
+    
     <style>
         body, html {
             margin: 0;
@@ -63,7 +63,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Leaflet Rotate JS -->
-    <script src="https://unpkg.com/leaflet-rotate@1.0.0/leaflet.rotate.js"></script>
+    <script src="https://unpkg.com/leaflet-rotate@1.1.1/leaflet.rotate.js"></script>
 
     <script>
         // Inizializza la mappa
@@ -71,6 +71,7 @@
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,
             zoomControl: true,
+            rotateControl: true // Abilita il controllo di rotazione
         });
 
         // Aggiungi il layer di OpenStreetMap
@@ -134,19 +135,8 @@
 
         // Funzione per andare alla posizione dell'utente
         function goToMyLocation() {
-            // Ottieni la posizione attuale dell'utente
-            var latlng = userMarker.getLatLng();
-            map.setView(latlng, map.getZoom()); // Centra la mappa sulla posizione dell'utente
+            map.setView(userMarker.getLatLng(), map.getZoom()); // Imposta la visuale sulla posizione dell'utente
         }
-
-        // Funzione per ruotare la mappa
-        function rotateMap(angle) {
-            // Rotazione della mappa
-            map.rotate(angle);
-        }
-
-        // Esempio di utilizzo della funzione di rotazione
-        // Puoi chiamare rotateMap(angle) dove angle è l'angolo in gradi
     </script>
 </body>
 </html>
