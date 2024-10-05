@@ -7,9 +7,9 @@
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Leaflet Rotate CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-rotate@1.1.1/leaflet.rotate.css" />
-    
+    <!-- Leaflet-Rotate CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-rotate@0.2.8/dist/leaflet-rotate.css" />
+
     <style>
         body, html {
             margin: 0;
@@ -62,8 +62,8 @@
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Leaflet Rotate JS -->
-    <script src="https://unpkg.com/leaflet-rotate@1.1.1/leaflet.rotate.js"></script>
+    <!-- Leaflet-Rotate JS -->
+    <script src="https://unpkg.com/leaflet-rotate@0.2.8/dist/leaflet-rotate-src.js"></script>
 
     <script>
         // Inizializza la mappa
@@ -71,7 +71,8 @@
             center: [40.49363526325899, 16.157518776766818], // Coordinate di Accettura
             zoom: 18,
             zoomControl: true,
-            rotateControl: true // Abilita il controllo di rotazione
+            rotate: true, // Abilita la rotazione
+            touchRotate: true // Abilita la rotazione tramite gesti su smartphone
         });
 
         // Aggiungi il layer di OpenStreetMap
